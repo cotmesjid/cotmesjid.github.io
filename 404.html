@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>404 — Gohlom Na Asoe</title>
+<style>
+  /* Reset sederhana */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html,body { height: 100%; font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: linear-gradient(180deg,#0f172a 0%, #071133 60%); color: #fff; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+  /* Layout tengah */
+  .wrap {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 980px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border-radius: 18px;
+    padding: 36px;
+    box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 24px;
+    align-items: center;
+  }
+
+  /* Teks besar */
+  .left {
+    padding: 12px 18px;
+  }
+  .eyebrow { font-weight: 700; color: #fef3c7; margin-bottom: 10px; letter-spacing: 1px; font-size: 14px; text-transform: uppercase; opacity: 0.9; }
+  h1 {
+    font-size: clamp(32px, 6vw, 54px);
+    line-height: 0.95;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    color: #fffbeb;
+    text-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  }
+  .bigline {
+    display:block;
+    font-size: clamp(28px, 5.5vw, 44px);
+    color: #ffd7a8;
+    margin-top: 6px;
+  }
+  p.lead {
+    color: #cbd5e1;
+    margin-top: 14px;
+    font-size: 15px;
+  }
+
+  /* Tombol */
+  .actions { margin-top: 20px; display:flex; gap:12px; flex-wrap:wrap; }
+  .btn {
+    background: linear-gradient(90deg,#ff7a18,#ffb347);
+    color: #071133;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(255,120,40,0.16);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .btn:active { transform: translateY(2px) scale(.995); box-shadow: 0 3px 8px rgba(0,0,0,0.3); }
+
+  .btn-ghost {
+    background: rgba(255,255,255,0.03);
+    color: #e6eef8;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* kanan = animasi */
+  .right {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height: 100%;
+  }
+
+  .scene {
+    width: 340px;
+    height: 260px;
+    position: relative;
+    perspective: 900px;
+  }
+
+  /* folder / file */
+  .folder {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 12px;
+    width: 220px;
+    height: 140px;
+    border-radius: 12px;
+    background: linear-gradient(180deg,#ffcc66 0%, #ffb84d 60%);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.45), inset 0 -6px 12px rgba(0,0,0,0.06);
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    overflow: visible;
+    transform-origin: center bottom;
+    animation: bob 3.2s ease-in-out infinite;
+  }
+
+  .folder::before {
+    content: "";
+    position: absolute;
+    top: -26px;
+    left: 18px;
+    width: 120px;
+    height: 34px;
+    border-radius: 8px 8px 4px 4px;
+    background: linear-gradient(180deg,#ffd98a 0%, #ffce66 100%);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    transform: translateZ(40px) rotateX(10deg);
+  }
+
+  /* muka file yang muncul */
+  .paper {
+    width: 130px;
+    height: 160px;
+    background: white;
+    border-radius: 6px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px) rotate(-14deg);
+    bottom: 60px;
+    box-shadow: 0 18px 40px rgba(2,6,23,0.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#0b1220;
+    font-weight:700;
+    font-size:20px;
+    letter-spacing: 0.5px;
+    animation: flipIn 1.2s cubic-bezier(.2,.9,.3,1) 0.15s both, floaty 3s ease-in-out infinite;
+  }
+
+  /* icon panah upload */
+  .arrow {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: linear-gradient(180deg,#0ea5e9,#0369a1);
+    color: white;
+    font-size: 28px;
+    box-shadow: 0 10px 30px rgba(3,105,161,0.28);
+    transform-origin: center;
+    animation: pop 2s ease-in-out infinite;
+  }
+
+  /* confetti pieces */
+  .confetti {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    height: 220px;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .piece {
+    position: absolute;
+    width: 10px;
+    height: 16px;
+    border-radius: 2px;
+    opacity: 0.95;
+    transform-origin: center;
+    animation: fall linear infinite;
+  }
+
+  /* kecil blink */
+  @keyframes bob {
+    0%,100% { transform: translateX(-50%) translateY(0) rotate(-0.5deg); }
+    50% { transform: translateX(-50%) translateY(-6px) rotate(1.2deg); }
+  }
+  @keyframes pop {
+    0%,100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.06) rotate(-2deg); }
+  }
+  @keyframes flipIn {
+    0% { transform: translateX(-50%) translateY(30px) rotate(-34deg) scale(.8); opacity:0; }
+    60% { transform: translateX(-50%) translateY(-10px) rotate(-12deg) scale(1.04); opacity:1; }
+    100% { transform: translateX(-50%) translateY(-10px) rotate(-14deg) scale(1); opacity:1; }
+  }
+  @keyframes floaty {
+    0%,100% { transform: translateX(-50%) translateY(-10px) rotate(-14deg); }
+    50% { transform: translateX(-50%) translateY(-16px) rotate(-10deg); }
+  }
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity:1; }
+    100% { transform: translateY(340px) rotate(520deg); opacity:0.85; }
+  }
+
+  /* footer kecil */
+  .footer {
+    grid-column: 1 / -1;
+    margin-top: 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color: #bcd2ff;
+    font-size: 13px;
+    opacity: 0.9;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(255,255,255,0.03);
+  }
+
+  /* responsive */
+  @media (max-width:880px) {
+    .card { grid-template-columns: 1fr; }
+    .right { order:-1; margin-bottom: 10px; }
+    .scene { width: 100%; height: 260px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" role="main" aria-labelledby="title404">
+      <div class="left">
+        <div class="eyebrow">404 • halaman leubeh</div>
+        <h1 id="title404">GOHLOM NA ASOE PREH<br><span class="bigline">DANG-DANG UPLOAD</span></h1>
+        <p class="lead">Ups! Kayaknya file atau jalanan yang kamu tuju sedang leubeh (hilang). Tenang, kita sudah bikin drama lucu supaya nggak bosen.</p>
+
+        <div class="actions">
+          <button class="btn" onclick="location.reload()">Coba Lagi</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('helpText').classList.toggle('show')">Kenapa Bisa?</button>
+        </div>
+
+        <div id="helpText" style="margin-top:12px; display:none; color:#dbeafe; font-size:14px;">
+          <strong>Kenapa?</strong> Bisa karena link salah, file terhapus, atau internet lagi ngambek. Coba kembali ke beranda atau cek URL.
+        </div>
+      </div>
+
+      <div class="right" aria-hidden="false">
+        <div class="scene" role="img" aria-label="Animasi upload lucu">
+          <div class="confetti" id="confetti"></div>
+
+          <div class="folder" aria-hidden="true">
+            <div class="arrow" title="upload">
+              <!-- simple arrow using SVG for crispness -->
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3v10" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8.5 7.5L12 3l3.5 4.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21 20H3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="paper" aria-hidden="true">?404</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>Butuh bantuan? <a href="#" onclick="alert('Mau balik ke beranda — contoh: location.href = \"/\"'); return false" style="color:#ffdd99; text-decoration:none;">Kembali ke Beranda</a></div>
+        <div style="opacity:0.8">Made with ☕ + lelucon</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Toggle help text (immediate UX)
+  document.querySelector('.btn-ghost').addEventListener('click', function(){
+    const el = document.getElementById('helpText');
+    if (el.style.display === 'none' || el.style.display === '') {
+      el.style.display = 'block';
+    } else {
+      el.style.display = 'none';
+    }
+  });
+
+  // Buat confetti pieces acak
+  (function createConfetti(){
+    const conf = document.getElementById('confetti');
+    const colors = ['#ff7a18','#ffb347','#7afcff','#ffd7a8','#c4b5fd','#fca5a5'];
+    const pieces = 18;
+    for (let i=0;i<pieces;i++){
+      const el = document.createElement('div');
+      el.className = 'piece';
+      el.style.background = colors[i % colors.length];
+      // random posisi horizontal awal
+      el.style.left = (Math.random()*100) + '%';
+      // random delay & duration
+      const delay = (Math.random()*2).toFixed(2) + 's';
+      const dur = (2.6 + Math.random()*1.4).toFixed(2) + 's';
+      el.style.animationDuration = dur;
+      el.style.animationDelay = delay;
+      // random rotation start
+      el.style.transform = `rotate(${Math.random()*360}deg)`;
+      // random size
+      const w = 6 + Math.random()*12;
+      el.style.width = w + 'px';
+      el.style.height = (w*1.2) + 'px';
+      // horizontal drift via translateX on start (CSS alone doesn't give different end X, but random left is fine)
+      conf.appendChild(el);
+    }
+  })();
+
+  // small accessibility: announce 404 to screen readers once
+  (function announce() {
+    const live = document.createElement('div');
+    live.setAttribute('aria-live','polite');
+    live.setAttribute('role','status');
+    live.style.position='absolute';
+    live.style.left='-9999px';
+    live.style.top='auto';
+    live.textContent = 'Halaman gohlom siap! Gohlom Na Asoe Preh Dang-Dang Upload.';
+    document.body.appendChild(live);
+    setTimeout(()=>document.body.removeChild(live),4000);
+  })();
+
+  // (Opsional) jika mau: buka link beranda; contoh di footer comment
+</script>
+</body>
+</html>
